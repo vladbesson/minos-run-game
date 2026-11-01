@@ -53,7 +53,6 @@ Or with plain pip: `pip install raylib && python main.py`.
 
 ## Known issues
 
-- From level 10 on, the rival can get stuck jittering in place: its per-frame step becomes longer than the remaining distance to a cell center, so it keeps overshooting the target. Low FPS triggers it earlier.
 - The exit sometimes spawns right at the start cell (about 0.5% of mazes, an instant win) and very rarely in a sealed-off pocket (about 0.06%, the level can't be finished).
 - Maze generation is recursive and hits Python's recursion limit at around level 35 (85×85 maze).
 - Collision checks test 6 points around the player instead of 8, so you can clip wall corners slightly in some directions.

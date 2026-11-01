@@ -171,8 +171,9 @@ class MazeAgent:
             else:
                 self.target_cell = self._choose_next_cell(maze)
 
-        speed = pr.get_frame_time() * self.speed / math.sqrt(dist2+1e-16)
-        nx, nz = self.pos.x + dx*speed, self.pos.z + dz*speed
+        dist = math.sqrt(dist2+1e-16)
+        step = min(pr.get_frame_time() * self.speed, dist)  # never overshoot the cell center
+        nx, nz = self.pos.x + dx*step/dist, self.pos.z + dz*step/dist
         if maze.no_collision(nx, self.pos.z):
             self.pos.x = nx
         if maze.no_collision(self.pos.x, nz):
