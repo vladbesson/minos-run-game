@@ -127,8 +127,20 @@ class Maze:
         for _ in range(self.size*2):
             self.maze[random.randint(1, self.size-2)][random.randint(1, self.size-2)] = 0
 
-        self.exit = random.randint(1, self.size-2), random.randint(1, self.size-2)
-        self.maze[self.exit[0]][self.exit[1]] = 0
+        self.exit = random.choice(list(self._reachable_cells((1, 1)) - {(1, 1)}))
+
+    def _reachable_cells(self, start):
+        """All open cells that can be walked to from start."""
+        seen = {start}
+        stack = [start]
+        while stack:
+            x, z = stack.pop()
+            for dx, dz in [(-1,0), (1,0), (0,-1), (0,1)]:
+                cell = (x+dx, z+dz)
+                if self.maze[cell[0]][cell[1]] == 0 and cell not in seen:
+                    seen.add(cell)
+                    stack.append(cell)
+        return seen
 
     def no_collision(self, nx, nz):
         if (self.maze[int(nx+0.1)][int(nz+0.1)] != 0 or self.maze[int(nx+0.1)][int(nz)] != 0 or
